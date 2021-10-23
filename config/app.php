@@ -4,6 +4,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Snapshot Urls
+    |--------------------------------------------------------------------------
+    |
+    | This value is an array of urls which should be captured periodically.
+    | At the moment, the urls should be captured 1st of every month. These
+    | urls will be passed as input to CRONs.
+    |
+    */
+
+    'snapshot_urls' => [
+        'https://www.yamaha-motor.com.pk/360-ybr-125/',
+        'https://www.yamaha-motor.com.pk/technical-specifications-ybr125/',
+        'https://www.yamaha-motor.com.pk/performance-ybr125/',
+        'https://www.yamaha-motor.com.pk/design-ybr125/',
+        'https://www.yamaha-motor.com.pk/comfort-ybr125/',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
     |
