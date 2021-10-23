@@ -54,12 +54,6 @@ class SaveSnapshot extends Command
 //            'wm-save-mywebarchive' => 'on',
 //            'email_result' => 'on',
         ]);
-
-        /* Perhaps for each saved snapshot, we should send request soon after to "Get Snapshot" api endpoint
-         * so that we can correctly save the latest snapshot (returned by api) into our DB.
-         * This way, we can also build record of snapshots taken by us.
-         */
-
         return Command::SUCCESS;
     }
 }
