@@ -42,6 +42,16 @@ return [
             'visibility' => 'public',
         ],
 
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path().'/uploads',
+
+            // url value is used while generating link to file via Storage facade
+            // example: Storage::disk('someDisk')->url($nameOfFile)
+            'url' => env('APP_URL').'/uploads',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
