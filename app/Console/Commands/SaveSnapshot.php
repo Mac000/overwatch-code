@@ -2,18 +2,23 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Traits\AcquireCommandArgument;
 
 class SaveSnapshot extends Command
 {
+    use AcquireCommandArgument;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'snapshot:save';
+    protected $signature = 'snapshot:save {urls*}';
 
     /**
      * The console command description.
@@ -45,15 +50,41 @@ class SaveSnapshot extends Command
          * each url in the array while properly logging it and alerting the admin in case a snapshot attempt has failed.
          */
 
-        // DO not Send Param if you don't need it as "on"
-        $response = Http::asForm()->post('https://web.archive.org/save', [
-            'url' => 'https://example.com/',
-//            'capture_outlinks' => 'on',
-//            'capture_all' => 'on',
-            'capture_screenshot' => 'on',
-//            'wm-save-mywebarchive' => 'on',
-//            'email_result' => 'on',
-        ]);
+        // Save response in session after first request in key "first_ever_response"
+
+
+        // get Argument
+        $urls = $this->getArgument();
+
+        Log::channel('saveSnapshot')->info("URL Argument:");
+        Log::channel('saveSnapshot')->info($urls);
+
+        // convert to string to allow for String Operations
+        $urls = $this->toString($urls);
+
+        Log::channel('saveSnapshot')->info("Stringyfied Argument:");
+        Log::channel('saveSnapshot')->info($urls);
+        Log::channel('saveSnapshot')->info("Type of Argument:");
+        Log::channel('saveSnapshot')->info(gettype($urls));
+
+        // split the array at "," and convert into sub arrays using laravel explode
+        $urls = $this->toArray($urls);
+
+        Log::channel('saveSnapshot')->info("Json Decoded array After Exploding String");
+        Log::channel('saveSnapshot')->info($urls);
+
+        // Remove "[", "]", & '"' from the array using laravel replaceArray
+        $urls = $this->sanitizeArgument($urls);
+        $urls = $this->removeEscapeSlashes($urls);
+
+        Log::channel('saveSnapshot')->debug("Final View of Array after all the formatting");
+        Log::channel('saveSnapshot')->debug($urls);
+
+        foreach ($urls as $url) {
+            Log::channel('saveSnapshot')->info("Save URL Snapshot: {$url}");
+            $this->saveSnapshot($url);
+        }
+        return Command::SUCCESS;
 
         /* Perhaps for each saved snapshot, we should send request soon after to "Get Snapshot" api endpoint
          * so that we can correctly save the latest snapshot (returned by api) into our DB.
@@ -71,8 +102,84 @@ class SaveSnapshot extends Command
          * That means if our CRON save a snapshot then we are gurranteed that there won't be a new snapshot for 45 mins.
          * We can hit Get closet endpoint before 45 mins and get our saved snapshot link. Perhaps you should save the time
          * of your app & wayback timestamp while saving a snapshot for future use reasons.
+         *
+         * Note: ANother idea is to send a second save requets after a short delay like 30-120 secs. This will show
+         * text like:
+         * "The same snapshot had been made 3 minutes ago. You can make new capture of this URL after 45 minutes."
+         * "A snapshot was captured. Visit page: /web/20220410220409/https://www.yamaha-motor.com.pk/comfort-ybr125/"
+         * Using regular expressions or Laravels string helpers, presence of keywords can be tested to be sure that save
+         * was successful and also get the ;atest snapshot url.
          */
 
         return Command::SUCCESS;
+    }
+
+    protected function saveSnapshot($url) {
+        // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
+        try {
+            $timestamp = Carbon::now();
+            $timestamp = $timestamp->format('YmdHis'); // convert to 14 digit Unix timestamp as used by Wayback Machine
+            Log::channel('saveSnapshot')->info("Unix TimeStamp : {$timestamp}");
+
+            $keys = config('app.pages_keys');
+            $product = null;
+            foreach ($keys as $key) {
+                if ($product === null) {
+                    $product = \App\Models\Product::where("data->pages->{$key}", $url)->first();
+                    if ($product !== null) break;
+                }
+            }
+            Log::channel('saveSnapshot')->info("Fetched Product via Url");
+            Log::channel('saveSnapshot')->info($product);
+
+            $response = Http::retry(3, 30)->asForm()->post('https://web.archive.org/save', [
+                // DO not Send any Param if you don't need it as "on"
+                'url' => $url,
+//                'capture_outlinks' => 'on',
+//                'capture_all' => 'on',
+                'capture_screenshot' => 'on',
+//                'wm-save-mywebarchive' => 'on',
+//                'email_result' => 'on',
+                ])->throw();
+
+            session()->put('save_first_response', $response);
+
+            if ($response->successful()) {
+                // update product data attributes
+                $data = json_decode($product->data);
+                $data->recent_snapshot_attempt = "successful";
+                $data->recent_snapshot_at = $timestamp;
+
+                $product->data = json_encode($data);
+                $product->save();
+                Log::channel('saveSnapshot')->info("Updated Product Dump");
+                Log::channel('saveSnapshot')->info($product);
+
+                Log::channel('saveSnapshot')->info("Snapshot Saved. Returned Status: {$response->status()}");
+                Log::channel('saveSnapshot')->info("Response Body");
+                Log::channel('saveSnapshot')->info($response->body());
+                return Command::SUCCESS;
+            }
+        } catch (RequestException $exception) {
+            $this->onFailure($exception, $url);
+        }
+    }
+
+    /**
+     * Handle HTTP errors (code >= 400)
+     * @param $exception
+     * @param $url
+     * @return int
+     */
+    protected function onFailure($exception, $url) {
+        // Perhaps you should send out an email to administration email address? Or Create something like Notices/Issues
+        // in Nova and admins can check up notices/issues of all types when they log into Nova
+
+        Log::channel('saveSnapshot')->error("Error Occurred during verification of {$url}");
+        Log::channel('saveSnapshot')->alert("HTTP Status: {$exception->response->status()}");
+//        Log::channel('saveSnapshot')->info("HTTP Response Body dump ⬇:");
+//        Log::channel('saveSnapshot')->info($exception->response->body());
+
+        return Command::FAILURE;
     }
 }
