@@ -48,6 +48,27 @@ return [
     */
 
     'channels' => [
+        'dev' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/dev.log'),
+            'level' => env('info'),
+        ],
+        'verifyUrlStatus' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/verifyUrlStatus.log'),
+            'level' => env('info'),
+        ],
+        'saveSnapshot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/saveSnapshot.log'),
+            'level' => env('info'),
+        ],
+        'getClosetSnapshot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/getClosetSnapshot.log'),
+            'level' => env('info'),
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
