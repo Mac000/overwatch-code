@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Models\Product;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $product = Product::find(1);
+        $urls = collect(json_decode($product->data)->pages)->values();
+
+        $schedule->command("snapshot:verifyUrl {$urls}")->everyMinute();
+        $schedule->command("snapshot:save {$urls}")->everyMinute();
         // $schedule->command('inspire')->hourly();
     }
 
