@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Traits\WaybackCommand;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\RequestException;
@@ -11,7 +12,7 @@ use App\Traits\AcquireCommandArgument;
 
 class SaveSnapshot extends Command
 {
-    use AcquireCommandArgument;
+    use AcquireCommandArgument, WaybackCommand;
 
     /**
      * The name and signature of the console command.
@@ -50,35 +51,23 @@ class SaveSnapshot extends Command
          * each url in the array while properly logging it and alerting the admin in case a snapshot attempt has failed.
          */
 
-        // Save response in session after first request in key "first_ever_response"
-
-
+        // Save response in session after first request in key "first_ever_response" for development reasons for now
         // get Argument
         $urls = $this->getArgument();
-
-        Log::channel('saveSnapshot')->info("URL Argument:");
-        Log::channel('saveSnapshot')->info($urls);
+        $this->logArgument(collect(["URL Argument", $urls]), "saveSnapshot");
 
         // convert to string to allow for String Operations
         $urls = $this->toString($urls);
-
-        Log::channel('saveSnapshot')->info("Stringyfied Argument:");
-        Log::channel('saveSnapshot')->info($urls);
-        Log::channel('saveSnapshot')->info("Type of Argument:");
-        Log::channel('saveSnapshot')->info(gettype($urls));
+        $this->logStringArgument(collect(["Stringyfied Argument:", $urls, "Type of Argument:", gettype($urls)]), "saveSnapshot");
 
         // split the array at "," and convert into sub arrays using laravel explode
         $urls = $this->toArray($urls);
-
-        Log::channel('saveSnapshot')->info("Json Decoded array After Exploding String");
-        Log::channel('saveSnapshot')->info($urls);
+        $this->logArrayArgument(collect(["Json Decoded Array after Exploding String:", $urls]), "saveSnapshot");
 
         // Remove "[", "]", & '"' from the array using laravel replaceArray
         $urls = $this->sanitizeArgument($urls);
         $urls = $this->removeEscapeSlashes($urls);
-
-        Log::channel('saveSnapshot')->debug("Final View of Array after all the formatting");
-        Log::channel('saveSnapshot')->debug($urls);
+        $this->logSanitizedArgument(collect(["Final View of Array after all the formatting", $urls]), "saveSnapshot");
 
         foreach ($urls as $url) {
             Log::channel('saveSnapshot')->info("Save URL Snapshot: {$url}");
@@ -161,25 +150,8 @@ class SaveSnapshot extends Command
                 return Command::SUCCESS;
             }
         } catch (RequestException $exception) {
-            $this->onFailure($exception, $url);
+            $logMessages = collect(["Error Occurred during verification of {$url}", "HTTP Status: {$exception->response->status()}"]);
+            $this->onFailure($exception, $url, "saveSnapshot", $logMessages);
         }
-    }
-
-    /**
-     * Handle HTTP errors (code >= 400)
-     * @param $exception
-     * @param $url
-     * @return int
-     */
-    protected function onFailure($exception, $url) {
-        // Perhaps you should send out an email to administration email address? Or Create something like Notices/Issues
-        // in Nova and admins can check up notices/issues of all types when they log into Nova
-
-        Log::channel('saveSnapshot')->error("Error Occurred during verification of {$url}");
-        Log::channel('saveSnapshot')->alert("HTTP Status: {$exception->response->status()}");
-//        Log::channel('saveSnapshot')->info("HTTP Response Body dump ⬇:");
-//        Log::channel('saveSnapshot')->info($exception->response->body());
-
-        return Command::FAILURE;
     }
 }
