@@ -52,6 +52,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'waybackReports' => [
+            'driver' => 'local',
+            'root' => storage_path().'/waybackReports',
+            'url' => env('APP_URL').'/waybackReports',
+            'visibility' => 'private',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

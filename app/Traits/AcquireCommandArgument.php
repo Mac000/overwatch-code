@@ -33,6 +33,9 @@ trait AcquireCommandArgument {
         $argument = $this->argument('urls');
         return $argument;
     }
+    protected function logArgument($messages, $channel = "production") {
+        $this->logMessagesCollection($messages, $channel);
+    }
 
     /**
      * Convert Argument to String Via json_encode & Str::of()
@@ -49,6 +52,9 @@ trait AcquireCommandArgument {
         $argument = Str::of($argument); // Get a new stringable object from the given string. (Required, otherwise errors executing Str functions)
         return $argument;
     }
+    protected function logStringArgument($messages, $channel = "production") {
+        $this->logMessagesCollection($messages, $channel);
+    }
 
     /**
      * Convert Argument to Array by exploding at "," and using json_decode at exploded array
@@ -60,6 +66,9 @@ trait AcquireCommandArgument {
         $argument = $argument->explode(',');
         $argument = json_decode($argument);
         return $argument;
+    }
+    protected function logArrayArgument($messages, $channel = "production") {
+        $this->logMessagesCollection($messages, $channel);
     }
 
     /**
@@ -85,5 +94,20 @@ trait AcquireCommandArgument {
         // Strip "\\" from Exploded Array
         $argument = Str::remove("\\", $argument);
         return $argument;
+    }
+    protected function logSanitizedArgument($messages, $channel = "production") {
+        $this->logMessagesCollection($messages, $channel);
+    }
+
+    /**
+     * Log a given collection of messages in a given channel
+     * @param $channel
+     * @param $messages
+     * @return void
+     */
+    protected function logMessagesCollection($messages, $channel) {
+        foreach ($messages as $message) {
+            Log::channel($channel)->info($message);
+        }
     }
 }

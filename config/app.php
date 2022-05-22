@@ -22,6 +22,14 @@ return [
 
     'closet_snapshot_endpoint' => "http://archive.org/wayback/available?",
 
+    'reports' => [
+        'verify_url_status' => [
+            'subject' => "URLs Status Report",
+            'greetings' => "Hi, .....",
+            'salutation' => "I guess Goodbye until next run..",
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

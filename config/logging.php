@@ -48,6 +48,10 @@ return [
     */
 
     'channels' => [
+        'production' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/production.log'),
+        ],
         'dev' => [
             'driver' => 'single',
             'path' => storage_path('logs/dev.log'),
