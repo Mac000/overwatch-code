@@ -49,7 +49,7 @@ class verifyUrlStatus extends Command
         $this->setLogChannel('verifyUrlStatus');
 
         // get Argument
-        $urls = $this->getArgument();
+        $urls = $this->getArgument('urls');
         $this->logArgument(collect(["URL Argument", $urls]), "verifyUrlStatus");
 
         // convert to string to allow for String Operations
