@@ -17,8 +17,8 @@ class CreateSnapshotsTable extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Product::class);
             $table->string('page_url');
-            $table->string('snapshot_url');
-            $table->timestamp('timestamp');
+            $table->string('snapshot_url')->unique();
+            $table->timestamp('wayback_timestamp');
             $table->timestamps();
         });
     }
