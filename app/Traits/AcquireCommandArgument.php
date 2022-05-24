@@ -29,8 +29,8 @@ trait AcquireCommandArgument {
      * Get argument of Command
      * @return mixed
      */
-    public function getArgument() {
-        $argument = $this->argument('urls');
+    public function getArgument($argument) {
+        $argument = $this->argument($argument);
         return $argument;
     }
     protected function logArgument($messages, $channel = "production") {
