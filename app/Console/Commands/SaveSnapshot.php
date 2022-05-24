@@ -9,6 +9,9 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Traits\AcquireCommandArgument;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 class SaveSnapshot extends Command
 {
@@ -53,7 +56,7 @@ class SaveSnapshot extends Command
 
         // Save response in session after first request in key "first_ever_response" for development reasons for now
         // get Argument
-        $urls = $this->getArgument();
+        $urls = $this->getArgument('urls');
         $this->logArgument(collect(["URL Argument", $urls]), "saveSnapshot");
 
         // convert to string to allow for String Operations
@@ -74,50 +77,17 @@ class SaveSnapshot extends Command
             $this->saveSnapshot($url);
         }
         return Command::SUCCESS;
-
-        /* Perhaps for each saved snapshot, we should send request soon after to "Get Snapshot" api endpoint
-         * so that we can correctly save the latest snapshot (returned by api) into our DB.
-         * This way, we can also build record of snapshots taken by us.
-         * NOTE: After hours of investigation it turns out that You can not send Get snapshot request soon after,
-         * You have to schedule it. Till now, it has been observed that it takes 5-30 mins for a snapshot to
-         * appear in Get snapshot endpoint. So your flow should be:
-         * 1. Validate links and make sure they are accessible (do not return 4xx or 5xx errors).
-         * 2. Take a Snapshot.
-         * 3. Wait for some time, probably 30 mins, then get the closet snapshot via get snapshot url to get the latest
-         * snapshot (potentially saved by our CRON). The key here is that the changes in site content are less likely.
-         * Maybe prices are updated after every 3-4 months and specs are rarely updated. So it's a very rare chance that
-         * we miss an update between our last saved snapshot and latest saved snapshot. Therefore, wait time of 30-60mins
-         * should not be an issue. Another important point is that Wayback only allows saving a snapshot every 45mins for a url.
-         * That means if our CRON save a snapshot then we are gurranteed that there won't be a new snapshot for 45 mins.
-         * We can hit Get closet endpoint before 45 mins and get our saved snapshot link. Perhaps you should save the time
-         * of your app & wayback timestamp while saving a snapshot for future use reasons.
-         *
-         * Note: ANother idea is to send a second save requets after a short delay like 30-120 secs. This will show
-         * text like:
-         * "The same snapshot had been made 3 minutes ago. You can make new capture of this URL after 45 minutes."
-         * "A snapshot was captured. Visit page: /web/20220410220409/https://www.yamaha-motor.com.pk/comfort-ybr125/"
-         * Using regular expressions or Laravels string helpers, presence of keywords can be tested to be sure that save
-         * was successful and also get the ;atest snapshot url.
-         */
-
-        return Command::SUCCESS;
     }
 
     protected function saveSnapshot($url) {
         // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
         try {
-            $timestamp = Carbon::now();
-            $timestamp = $timestamp->format('YmdHis'); // convert to 14 digit Unix timestamp as used by Wayback Machine
-            Log::channel('saveSnapshot')->info("Unix TimeStamp : {$timestamp}");
 
-            $keys = config('app.pages_keys');
-            $product = null;
-            foreach ($keys as $key) {
-                if ($product === null) {
-                    $product = \App\Models\Product::where("data->pages->{$key}", $url)->first();
-                    if ($product !== null) break;
-                }
-            }
+            $timestamp = Carbon::now("GMT");
+            $timestamp = $this->toWaybackMachineCompatibleTimestamp($timestamp);
+            Log::channel('saveSnapshot')->info("Wayback Machine Compatible Timestamp : {$timestamp}");
+
+            $product = $this->getProductByAnyPageUrl($url);
             Log::channel('saveSnapshot')->info("Fetched Product via Url");
             Log::channel('saveSnapshot')->info($product);
 
@@ -131,27 +101,82 @@ class SaveSnapshot extends Command
 //                'email_result' => 'on',
                 ])->throw();
 
-            session()->put('save_first_response', $response);
-
-            if ($response->successful()) {
-                // update product data attributes
-                $data = json_decode($product->data);
-                $data->recent_snapshot_attempt = "successful";
-                $data->recent_snapshot_at = $timestamp;
-
-                $product->data = json_encode($data);
-                $product->save();
-                Log::channel('saveSnapshot')->info("Updated Product Dump");
-                Log::channel('saveSnapshot')->info($product);
-
-                Log::channel('saveSnapshot')->info("Snapshot Saved. Returned Status: {$response->status()}");
-                Log::channel('saveSnapshot')->info("Response Body");
-                Log::channel('saveSnapshot')->info($response->body());
-                return Command::SUCCESS;
-            }
+            $logMessages = collect([
+                "Updated Product Dump", $product, "Snapshot Saved. Returned Status: {$response->status()}",
+                "Response Body", $response->body()
+                ]);
+            $this->onSuccess($response, $url, "saveSnapshot", $logMessages, $product, $timestamp);
+            return Command::SUCCESS;
         } catch (RequestException $exception) {
             $logMessages = collect(["Error Occurred during verification of {$url}", "HTTP Status: {$exception->response->status()}"]);
             $this->onFailure($exception, $url, "saveSnapshot", $logMessages);
         }
+    }
+
+    /**
+     * Handle Save Snapshot request success & Perform some post SnapshotTaken Operations (update product page key data)
+     * @param $response
+     * @param $url
+     * @param $logChannel
+     * @param $logMessages
+     * @param $product
+     * @param $timestamp
+     * @return null
+     */
+    protected function onSuccess($response, $url, $logChannel, $logMessages, $product, $timestamp) {
+        /*
+         * 1. Get Product Page using Url
+         * 2. Update Product Page and save the product
+         */
+        if ($response->successful()) {
+            if ($this->isSnapshotAlreadySaved($response->body(), "saveSnapshot")) return;
+
+            $productPage = $this->getProductPageByUrl($url);
+            $productPageKey = $productPage["key"];
+            $productPage = $productPage["page"];
+            $this->updateProductPageAfterTakingSnapshot($product, $productPage, $productPageKey, $timestamp);
+
+            foreach ($logMessages as $message) {
+                Log::channel($logChannel)->info($message);
+            }
+            return $response;
+        }
+        return null;
+    }
+
+    /**
+     * Check if Snapshot was already saved in last 45min. This is dependent on a string in response body.
+     * In case string is changed by Wayback, we have to update te string as well.
+     * TODO: Maybe create a command that attempts to save a snapshot twice within 45 mins, if the response contains
+     * TODO: --> string, all is okay; otherwise send an email so appropriate update can be made.
+     * @param $htmlBody
+     * @param $channel
+     * @return bool
+     */
+    protected function isSnapshotAlreadySaved($htmlBody, $channel) {
+        $alreadySavedText = Str::of(config('app.snapshot_already_taken_string'));
+        Log::channel($channel)->notice("Snapshot was saved some time ago, Please wait for 45 minutes");
+        return Str::contains($htmlBody, $alreadySavedText);
+    }
+
+    /**
+     * Update the Product Page Key [$product->data->pages->{key/pageName}] after making a save snapshot request
+     * @param $product
+     * @param $productPage
+     * @param $productPageKey
+     * @param $timestamp
+     * @return mixed
+     */
+    protected function updateProductPageAfterTakingSnapshot($product, $productPage, $productPageKey, $timestamp) {
+        // Create an entry in snapshots as well and link snapshots to products and vice versa va eloquent relations
+        // update product data attributes
+        $productPage['recent_snapshot_attempted_at'] = $timestamp;
+        $productPage['recent_snapshot_attempt'] = config('app.snapshot_attempt_statuses.successful');
+        $productPage = $productPage;
+
+        // Use forceFill otherwise you have to define every json key as fillable OR update entire json column.
+        $product->forceFill(["data->pages->{$productPageKey}" => $productPage]);
+        $product->save();
+        return $product;
     }
 }
