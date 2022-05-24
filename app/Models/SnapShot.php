@@ -17,7 +17,7 @@ class SnapShot extends Model
      * @var string[]
      */
     protected $fillable = [
-        'product_id', 'page_url', 'snapshot_url', 'timestamp',
+        'product_id', 'page_url', 'snapshot_url', 'wayback_timestamp',
     ];
 
     /**
