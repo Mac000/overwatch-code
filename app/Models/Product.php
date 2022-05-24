@@ -51,7 +51,19 @@ class Product extends Model
 //        'data' => 'array',
     ];
 
+    /**
+     * Get all snapshots of Product
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function snapshots() {
         return $this->hasMany(SnapShot::class);
+    }
+
+    /**
+     * Get latest/most recent Snapshot of Product
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function latestSnapshot() {
+        return $this->hasOne(SnapShot::class)->latest();
     }
 }
