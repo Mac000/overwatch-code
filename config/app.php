@@ -19,6 +19,13 @@ return [
         'design' => 'design',
         'comfort' => 'comfort',
     ],
+    'snapshot_attempt_statuses' => [
+        'successful' => "successful",
+        'failed' => 'failed',
+        'null' => null,
+    ],
+    'snapshot_check_delay' => 45, // 45 minutes
+    'snapshot_already_taken_string' => "You can make new capture of this URL after 45 minutes",
 
     'closet_snapshot_endpoint' => "http://archive.org/wayback/available?",
 
