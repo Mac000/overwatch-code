@@ -250,7 +250,7 @@ class SuzukiVehiclesSeeder extends Seeder
             'formatted_name' => 'APV',
             'data' => json_encode([
                 'variants' => [
-                    '1.5l' => [
+                    '1-5l' => [
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.suzukipakistan.com/automobile-detail?automobile=4g8z3sa64t3ahvhs7y7rgtebx7',
