@@ -12,19 +12,36 @@ return [
     |
     */
 
+    'default_variant_key' => 'default',
+    'price_not_available' => [
+        'on_quote' => 'Ask for Quotation',
+        'na' => 'N/A'
+    ],
     'pages_keys' => [
         'main' => 'main',
+        'price' => 'price',
         'specs' => 'specs',
         'performance' => 'performance',
         'design' => 'design',
         'comfort' => 'comfort',
+        'technology' => 'technology',
+        'convenience' => 'convenience',
+        'exterior' => 'exterior',
+        'interior' => 'interior',
     ],
+    'files_keys' => [
+        'brochure' => 'brochure',
+        'poster' => 'poster',
+        'price' => 'price',
+    ],
+
     'snapshot_attempt_statuses' => [
         'successful' => "successful",
         'failed' => 'failed',
         'null' => null,
     ],
-    'snapshot_check_delay' => 45, // 45 minutes
+//    'snapshot_check_delay' => 45, // 45 minutes
+    'snapshot_check_delay' => 1440, // 45 minutes
     'snapshot_already_taken_string' => "You can make new capture of this URL after 45 minutes",
 
     'closet_snapshot_endpoint' => "http://archive.org/wayback/available?",
@@ -32,6 +49,11 @@ return [
     'reports' => [
         'verify_url_status' => [
             'subject' => "URLs Status Report",
+            'greetings' => "Hi, .....",
+            'salutation' => "I guess Goodbye until next run..",
+        ],
+        'save_snapshot' => [
+            'subject' => "snapshot:save Status Report",
             'greetings' => "Hi, .....",
             'salutation' => "I guess Goodbye until next run..",
         ]
