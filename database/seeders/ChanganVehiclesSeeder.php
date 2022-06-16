@@ -17,21 +17,17 @@ class ChanganVehiclesSeeder extends Seeder
         /** Alsvin */
         DB::table('products')->insert([
             'name' => 'alsvin',
+            'formatted_name' => 'Alsvin',
             'data' => json_encode([
                 'variants' => [
-                    'comfort_1.37l_mt' => [
+                    'comfort_1-37l_mt' => [
+                        'formatted_name' => 'Comfort 1.37L MT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/alsvin',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -42,18 +38,13 @@ class ChanganVehiclesSeeder extends Seeder
                         'price' => '2894000',
                     ],
                     'dct_comfort_1.5l' => [
+                        'formatted_name' => 'DCT Comfort 1.5L',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/alsvin',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -64,18 +55,13 @@ class ChanganVehiclesSeeder extends Seeder
                         'price' => '3149000',
                     ],
                     'lumiere' => [
+                        'formatted_name' => 'Lumiere',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/alsvin',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -103,21 +89,17 @@ class ChanganVehiclesSeeder extends Seeder
         /** Oshan X7 */
         DB::table('products')->insert([
             'name' => 'oshan_x7',
+            'formatted_name' => 'Oshan X7',
             'data' => json_encode([
                 'variants' => [
                     'comfort' => [
+                        'formatted_name' => 'Comfort',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/oshan-x7/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -128,18 +110,13 @@ class ChanganVehiclesSeeder extends Seeder
                         'price' => '6050000',
                     ],
                     'future_sense' => [
+                        'formatted_name' => 'FutureSense',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/oshan-x7/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -167,21 +144,17 @@ class ChanganVehiclesSeeder extends Seeder
         /** Karvaan */
         DB::table('products')->insert([
             'name' => 'karvaan',
+            'formatted_name' => 'Karvaan',
             'data' => json_encode([
                 'variants' => [
                     'standard' => [
+                        'formatted_name' => 'Standard',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/karvaan-mpv/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -191,7 +164,8 @@ class ChanganVehiclesSeeder extends Seeder
                         ],
                         'price' => '2069000',
                     ],
-                    'karvaan_plus' => [
+                    'plus' => [
+                        'formatted_name' => 'Plus',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/karvaan-mpv/',
@@ -230,21 +204,17 @@ class ChanganVehiclesSeeder extends Seeder
         /** M9 Sherpa */
         DB::table('products')->insert([
             'name' => 'm9_sherpa',
+            'formatted_name' => 'M9 Sherpa',
             'data' => json_encode([
                 'variants' => [
                     'power_carry' => [
+                        'formatted_name' => 'Power Carry',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://changan.com.pk/m9-sherpa/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
