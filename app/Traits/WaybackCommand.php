@@ -2,9 +2,11 @@
 namespace App\Traits;
 
 use App\Models\Product;
+use App\Notifications\SnapshotReport;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 trait WaybackCommand {
@@ -43,7 +45,8 @@ trait WaybackCommand {
         foreach ($logMessages as $message) {
             Log::channel($logChannel)->error($message);
         }
-        return Command::FAILURE;
+        return $exception;
+//        return Command::FAILURE;
     }
 
     /**
@@ -54,7 +57,7 @@ trait WaybackCommand {
      */
     protected function onSnapshotUnavailability($url, $channel) {
         Log::channel($channel)->notice("Closest Snapshot of {$url} IS NOT AVAILABLE :(");
-        return Command::INVALID;
+        return "unavailable"; // receiver will check for this and run some code as seemed fit!
     }
 
     /**
@@ -64,12 +67,22 @@ trait WaybackCommand {
      */
     // TODO: Perhaps this can be shifted to the Product model.
     protected function getProductByAnyPageUrl($url) {
-        $keys = config('app.pages_keys');
+        $pagesKeys = config('app.pages_keys');
+        $pageKey = null;
         $product = null;
-        foreach ($keys as $key) {
-            if ($product === null) {
-                $product = \App\Models\Product::where("data->pages->{$key}->url", $url)->first();
-                if ($product !== null) break;
+        $variantKeys = Product::VariantsKeys();
+        $variantKey = null;
+
+        foreach ($variantKeys as $variant) {
+            foreach ($pagesKeys as $page) {
+                if ($product == null) {
+                    $product = Product::where("data->variants->{$variant}->pages->{$page}->url", $url)->first();
+                    if ($product != null) {
+                        $variantKey = $variant;
+                        $pageKey = $page;
+                        break;
+                    }
+                }
             }
         }
         return $product ?? null;
@@ -82,20 +95,44 @@ trait WaybackCommand {
      */
     // TODO: Perhaps this can be shifted to the Product Model
     protected function getProductPageByUrl($url) {
-        $keys = config('app.pages_keys');
-        $data = null;
+        $variantKeys = Product::VariantsKeys();
+        $pagesKeys = config('app.pages_keys');
         $pageKey = null;
-        foreach ($keys as $key) {
+        $variantKey = null;
+        $product = null;
+        $data = null;
+
+        foreach ($variantKeys as $variant) {
+            foreach ($pagesKeys as $page) {
+                if ($product == null) {
+                    $product = Product::where("data->variants->{$variant}->pages->{$page}->url", $url)->first();
+                    if ($product != null) {
+                        $variantKey = $variant;
+                        $pageKey = $page;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $data = json_decode($product->data, true);
+        $page = $data['variants'][$variantKey]['pages'][$pageKey];
+        return collect(["variant_key" => $variantKey, "page_key" => $pageKey, "page" => $page]) ?? null;
+
+        foreach ($pagesKeys as $page) {
+
             if ($data === null) {
-                $data = Product::where("data->pages->{$key}->url", $url)->pluck("data")->first();
+                $data = Product::where("data->variants->gray->pages->{$page}->url", $url)->pluck("data")->first();
+                dd($data);
                 if ($data !== null) {
-                    $pageKey = $key;
+                    $pageKey = $page;
                     break;
                 }
             }
         }
+
         $data = json_decode($data, true);
-        $page = $data['pages'][$pageKey];
+        $page = $data['variants']['pages'][$pageKey];
         return collect(["key" => $pageKey, "page" => $page]) ?? null;
     }
 
@@ -134,8 +171,8 @@ trait WaybackCommand {
     protected function generateVerifyUrlJsonReport($url, $response, $product,
                                                    $first = false, $last = false, $index = 0,
                                                    $disk = "waybackReports", $file = "verifyUrlStatus.json") {
-        $manufacturer = json_decode($product->data)->manufacturer;
 
+        $manufacturer = json_decode($product->data)->manufacturer;
         // Opening "{" of json file
         if ($first === true) {
             Storage::disk($disk)->put($file, "{   \"products\": {");
@@ -163,11 +200,54 @@ trait WaybackCommand {
         }
         $index++;
         $file = Storage::disk($disk)->get($file);
+
         return $file;
     }
 
-    protected function generateSaveSnapshotJsonReport () {
+    protected function generateSaveSnapshotJsonReport ($url, $status, $product,
+                                                       $first = false, $last = false, $index = 0,
+                                                       $disk = "waybackReports", $file = "saveSnapshot.json")
+    {
+        $manufacturer = json_decode($product->data)->manufacturer;
 
+        // Opening "{" of json file
+        if ($first === true) {
+            Storage::disk($disk)->put($file, "{   \"products\": {");
+        }
+
+        if ($last === true) {
+            $reportData = "\"{$index}\": {
+                \"name\": \"{$product->name}\",
+                \"manufacturer\": \"{$manufacturer}\",
+                \"url\": \"{$url}\",
+                \"url_status\": \"{$status}\"
+            }
+        }
+    }"; // } = product, } = products, } = closing
+            Storage::disk($disk)->append($file, $reportData);
+        } else {
+            $reportData = "\"{$index}\": {
+                \"name\": \"{$product->name}\",
+                \"manufacturer\": \"{$manufacturer}\",
+                \"url\": \"{$url}\",
+                \"url_status\": \"{$status}\"
+            },";
+            Storage::disk($disk)->append($file, $reportData);
+        }
+        $index++;
+        $file = Storage::disk($disk)->get($file);
+        return $file;
+    }
+
+    /**
+     * Send Report over Email
+     */
+    protected function sendReportViaEmail($reportFile, $mailData, $receiverEmail) {
+        $mailData = config('app.reports.verify_url_status');
+
+        // json_decode $reportJson to convert it into php array and pass on to report notification class
+        Notification::route('mail', config('mail.site_emails.administration'))
+            ->notify(new SnapshotReport($mailData, json_decode($reportFile, true)));
     }
 
     // TODO: Test this function and see if it can work as a true one stop function to get any data property.
