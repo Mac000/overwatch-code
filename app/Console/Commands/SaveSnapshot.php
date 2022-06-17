@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\FailedSnapshotUrl;
 use App\Traits\WaybackCommand;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 use App\Traits\AcquireCommandArgument;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 class SaveSnapshot extends Command
 {
@@ -48,13 +48,10 @@ class SaveSnapshot extends Command
      */
     public function handle()
     {
-        /* Currently the snapshot is saved successfully but I am not able to store it in my archive.
+        /* Currently, the snapshot is saved successfully but I am not able to store it in my archive.
          * Next target is to store it in "My Archive".
-         * Another Next Enhancement is to allow the command to accept array of arguments (urls) and save snapshot of
-         * each url in the array while properly logging it and alerting the admin in case a snapshot attempt has failed.
          */
 
-        // Save response in session after first request in key "first_ever_response" for development reasons for now
         // get Argument
         $urls = $this->getArgument('urls');
         $this->logArgument(collect(["URL Argument", $urls]), "saveSnapshot");
@@ -72,17 +69,9 @@ class SaveSnapshot extends Command
         $urls = $this->removeEscapeSlashes($urls);
         $this->logSanitizedArgument(collect(["Final View of Array after all the formatting", $urls]), "saveSnapshot");
 
+        $urlsLoopIndex = 0;
+        $urlsArrayLength = count($urls);
         foreach ($urls as $url) {
-            Log::channel('saveSnapshot')->info("Save URL Snapshot: {$url}");
-            $this->saveSnapshot($url);
-        }
-        return Command::SUCCESS;
-    }
-
-    protected function saveSnapshot($url) {
-        // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
-        try {
-
             $timestamp = Carbon::now("GMT");
             $timestamp = $this->toWaybackMachineCompatibleTimestamp($timestamp);
             Log::channel('saveSnapshot')->info("Wayback Machine Compatible Timestamp : {$timestamp}");
@@ -91,7 +80,45 @@ class SaveSnapshot extends Command
             Log::channel('saveSnapshot')->info("Fetched Product via Url");
             Log::channel('saveSnapshot')->info($product);
 
-            $response = Http::retry(3, 30)->asForm()->post('https://web.archive.org/save', [
+            Log::channel('saveSnapshot')->info("Save URL Snapshot: {$url}");
+            $response = $this->saveSnapshot($url, $timestamp, $product);
+
+            // An exception occurred, Grab Request status from exception object
+            if ($response instanceof RequestException) {
+                $status = $response->response->status();
+                Log::channel('dev')->info("An exception occurred. Continuing to next loop iteration");
+//                continue;
+            }
+            else {
+                $status = $response->status();
+            }
+
+            // TODO: This part must run regardless of successful response or exception
+            // Write report information to a json file
+            if ($urlsLoopIndex  === 0) { // for first ever url
+                $reportFile = $this->generateSaveSnapshotJsonReport($url, $status, $product, true, false, $urlsLoopIndex);
+            }
+            elseif ($urlsArrayLength - $urlsLoopIndex == 1) { // for last url
+                $reportFile = $this->generateSaveSnapshotJsonReport($url, $status, $product,false, true, $urlsLoopIndex);
+            }
+            else {
+                $reportFile = $this->generateSaveSnapshotJsonReport($url, $status, $product, false, false, $urlsLoopIndex);
+            }
+            $urlsLoopIndex++;
+        }
+
+        // TODO: Make sure that your email template blade file is set up as per passed Data.
+        // Send Report via Email
+//        $mailData = config('app.reports.verify_url_status');
+//        $this->sendReportViaEmail($mailData, $reportFile, config('mail.site_emails.administration'));
+
+        return Command::SUCCESS;
+    }
+
+    protected function saveSnapshot($url, $timestamp, $product) {
+        // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
+        try {
+            $response = Http::retry(2, 5)->asForm()->post('https://web.archive.org/save', [
                 // DO not Send any Param if you don't need it as "on"
                 'url' => $url,
 //                'capture_outlinks' => 'on',
@@ -105,11 +132,14 @@ class SaveSnapshot extends Command
                 "Updated Product Dump", $product, "Snapshot Saved. Returned Status: {$response->status()}",
                 "Response Body", $response->body()
                 ]);
-            $this->onSuccess($response, $url, "saveSnapshot", $logMessages, $product, $timestamp);
-            return Command::SUCCESS;
-        } catch (RequestException $exception) {
+            return $this->onSuccess($response, $url, "saveSnapshot", $logMessages, $product, $timestamp);
+        }
+        catch (RequestException $exception) {
+            $this->addToFailedSnapshotUrls($url, $exception, $product->id);
             $logMessages = collect(["Error Occurred during verification of {$url}", "HTTP Status: {$exception->response->status()}"]);
+
             $this->onFailure($exception, $url, "saveSnapshot", $logMessages);
+            return $exception;
         }
     }
 
@@ -129,34 +159,40 @@ class SaveSnapshot extends Command
          * 2. Update Product Page and save the product
          */
         if ($response->successful()) {
-            if ($this->isSnapshotAlreadySaved($response->body(), "saveSnapshot")) return;
+            if ($this->isSnapshotAlreadySaved($response->body(), "saveSnapshot")) {
+                return $response; // return $response so as the remaining code expects to have a $response instance
+            }
 
             $productPage = $this->getProductPageByUrl($url);
-            $productPageKey = $productPage["key"];
+            $productPageKey = $productPage["page_key"];
+            $variantKey = $productPage["variant_key"];
             $productPage = $productPage["page"];
-            $this->updateProductPageAfterTakingSnapshot($product, $productPage, $productPageKey, $timestamp);
 
+            $this->updateProductPageAfterTakingSnapshot($product, $productPage, $variantKey, $productPageKey, $timestamp);
             foreach ($logMessages as $message) {
                 Log::channel($logChannel)->info($message);
             }
+
             return $response;
         }
+        // perhaps you should return $reponse here as the code in this command mostly needs $response or $exception
         return null;
     }
 
     /**
      * Check if Snapshot was already saved in last 45min. This is dependent on a string in response body.
      * In case string is changed by Wayback, we have to update te string as well.
-     * TODO: Maybe create a command that attempts to save a snapshot twice within 45 mins, if the response contains
-     * TODO: --> string, all is okay; otherwise send an email so appropriate update can be made.
      * @param $htmlBody
      * @param $channel
      * @return bool
      */
     protected function isSnapshotAlreadySaved($htmlBody, $channel) {
         $alreadySavedText = Str::of(config('app.snapshot_already_taken_string'));
-        Log::channel($channel)->notice("Snapshot was saved some time ago, Please wait for 45 minutes");
-        return Str::contains($htmlBody, $alreadySavedText);
+        if (Str::contains($htmlBody, $alreadySavedText)) {
+            Log::channel($channel)->notice("Snapshot was saved some time ago, Please wait for 45 minutes");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -167,7 +203,7 @@ class SaveSnapshot extends Command
      * @param $timestamp
      * @return mixed
      */
-    protected function updateProductPageAfterTakingSnapshot($product, $productPage, $productPageKey, $timestamp) {
+    protected function updateProductPageAfterTakingSnapshot($product, $productPage, $variantKey, $productPageKey, $timestamp) {
         // Create an entry in snapshots as well and link snapshots to products and vice versa va eloquent relations
         // update product data attributes
         $productPage['recent_snapshot_attempted_at'] = $timestamp;
@@ -175,8 +211,27 @@ class SaveSnapshot extends Command
         $productPage = $productPage;
 
         // Use forceFill otherwise you have to define every json key as fillable OR update entire json column.
-        $product->forceFill(["data->pages->{$productPageKey}" => $productPage]);
+        $product->forceFill(["data->variants->{$variantKey}->pages->{$productPageKey}" => $productPage]);
         $product->save();
         return $product;
+    }
+
+    /**
+     * Add URLs to FailedSnapshotUrls Table when an exception occurs
+     * @param $url
+     * @param $exception
+     * @param $productId
+     * @return mixed
+     */
+    protected function addToFailedSnapshotUrls($url, $exception, $productId) {
+        $failedSnapshotUrl = FailedSnapshotUrl::create([
+           'url' => $url,
+           'product_id' => $productId,
+           'data' => json_encode([
+               'status' => $exception->response->status(),
+               'exception' => $exception,
+           ]),
+        ]);
+        return $failedSnapshotUrl;
     }
 }
