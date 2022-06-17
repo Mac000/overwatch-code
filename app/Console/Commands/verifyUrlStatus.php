@@ -73,22 +73,20 @@ class verifyUrlStatus extends Command
 
             // Write report information to a json file
             if ($urlsLoopIndex  === 0) { // for first ever url
-                $productReport = $this->generateVerifyUrlJsonReport($url, $response, $product, true, false, $urlsLoopIndex);
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product, true, false, $urlsLoopIndex);
             }
             elseif ($urlsArrayLength - $urlsLoopIndex == 1) { // for last url
-                $productReport = $this->generateVerifyUrlJsonReport($url, $response, $product,false, true, $urlsLoopIndex);
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product,false, true, $urlsLoopIndex);
             }
             else {
-                $productReport = $this->generateVerifyUrlJsonReport($url, $response, $product, false, false, $urlsLoopIndex);
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product, false, false, $urlsLoopIndex);
             }
             $urlsLoopIndex++;
         }
 
+        // Send Report via Email
         $mailData = config('app.reports.verify_url_status');
-
-        // json_decode $productReport to convert it into php array and pass on to report notification class
-        Notification::route('mail', config('mail.site_emails.administration'))
-            ->notify(new SnapshotReport($mailData, json_decode($productReport, true)));
+        $this->sendReportViaEmail($reportFile, $mailData, config('mail.site_emails.administration'));
 
         return Command::SUCCESS;
     }
