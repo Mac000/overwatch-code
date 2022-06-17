@@ -47,6 +47,7 @@ class AddSavedSnapshot extends Command
      */
     public function handle()
     {
+        // TODO: Generate & Send report for this command
         $timestamps = $this->getArgument("timestamps");
         $urls = $this->getArgument("urls");
         $this->logArgument(collect(["URL Argument", $urls, "Timestamp", $timestamps]), 'addSavedSnapshot');
@@ -76,8 +77,16 @@ class AddSavedSnapshot extends Command
         $index = 0;
         foreach ($urls as $url) {
             // TODO: refactor and make sure that index of timestamp is correctly incremented
+            $timestamp = $timestamps[$index];
+            if ($timestamp === null or $timestamp === "null") {$timestamp = "";}
+
             // Get closet Snapshot
-            $snapshot = $this->getClosestSnapshot($url, $timestamps[$index]);
+            $snapshot = $this->getClosestSnapshot($url, $timestamp);
+            if ($snapshot === "unavailable") {
+                Log::channel('addSavedSnapshot')->warning("Snapshot for {$url} Does not exist in Wayback. Please save the snapshot first");
+                continue; // continue to next iteration. Nothing useful to do until report generation capability is built
+            }
+
             $archivedSnapshots = $snapshot['archived_snapshots'];
 
             // Skip current URL when WayBack Machine does not return a url
@@ -90,7 +99,7 @@ class AddSavedSnapshot extends Command
 
             // Check difference between snapshot attempted at and wayback timestamp (45mins acceptable)
             $waybackTimestamp = $archivedSnapshots['closest']['timestamp'];
-            $diff = $this->isTimestampBetweenMins($timestamps[$index], $waybackTimestamp, config('app.snapshot_check_delay'));
+            $diff = $this->isTimestampBetweenMins($timestamp, $waybackTimestamp, config('app.snapshot_check_delay'));
             $index++;
             if ($diff === false) continue;
 
@@ -112,7 +121,7 @@ class AddSavedSnapshot extends Command
 
     protected function getClosestSnapshot($url, $timestamp = '') {
         try {
-            $response = Http::retry(3, 30)->get(config('app.closet_snapshot_endpoint'), [
+            $response = Http::retry(3, 15)->get(config('app.closet_snapshot_endpoint'), [
                 'url' => $url,
                 'timestamp' => $timestamp,
             ])->throw();
@@ -155,8 +164,10 @@ class AddSavedSnapshot extends Command
      * @return bool
      */
     protected function isTimestampBetweenMins($timestamp, $waybackTimestamp, $mins) {
+        if ($timestamp === "") {$timestamp = 0;}
         $mins = $mins * 60; // since timestamp contains seconds as well.
         $difference = $waybackTimestamp - $timestamp;
+
         Log::channel('addSavedSnapshot')->notice("Difference between timestamps");
         Log::channel('addSavedSnapshot')->notice($difference);
 
