@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Product extends Model
 {
@@ -65,5 +66,29 @@ class Product extends Model
      */
     public function latestSnapshot() {
         return $this->hasOne(SnapShot::class)->latest();
+    }
+
+    // Variants keys shall be static and saved/cached somewhere. It's not a good idea to do this compute intensive task
+    // on every function call
+    public function VariantsKeys() {
+        $products = Product::all();
+        $variants = collect();
+        $variantsKeys = collect();
+
+        // Get variants of each product in $variants collection
+        foreach ($products as $product) {
+            $variants->push(json_decode($product->data, true)['variants']);
+        }
+
+        // Loop over all variants of products and get keys of each variant
+        foreach ($variants as $variant) {
+            $keysToAdd = array_keys($variant); // Get keys/names of variants in an array
+            foreach ($keysToAdd as $key) {
+                if (!$variantsKeys->contains($key)) { // Key Doesn't exist in $variantKeys collection, push to $variantKeys
+                    $variantsKeys->push($key);
+                }
+            }
+        }
+        return $variantsKeys;
     }
 }
