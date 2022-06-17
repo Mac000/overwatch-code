@@ -72,6 +72,10 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/addSavedSnapshot.log'),
         ],
+        'reattemptFailedSnapshots' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/reattemptFailedSnapshots.log'),
+        ],
 
         'stack' => [
             'driver' => 'stack',
