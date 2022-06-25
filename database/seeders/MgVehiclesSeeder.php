@@ -21,27 +21,15 @@ class MgVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     config('app.default_variant_key') => [
+                        'formatted_name' => 'MG HS',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://mgmotors.com.pk/MG-HS',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => config('app.price_not_available.na'),
                     ],
                 ],
@@ -64,27 +52,15 @@ class MgVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     config('app.default_variant_key') => [
+                        'formatted_name' => 'MG ZS',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://mgmotors.com.pk/MG-ZS',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => config('app.price_not_available.na'),
                     ],
                 ],
@@ -103,31 +79,19 @@ class MgVehiclesSeeder extends Seeder
         /** ZS-EV */
         DB::table('products')->insert([
             'name' => 'mg_zs_ev',
-            'formatted_name' => 'MG ZS-EV',
+            'formatted_name' => 'MG ZS EV',
             'data' => json_encode([
                 'variants' => [
                     config('app.default_variant_key') => [
+                        'formatted_name' => 'MG ZS EV',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://mgmotors.com.pk/MG-ZS-EV',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => config('app.price_not_available.na'),
                     ],
                 ],
@@ -146,31 +110,19 @@ class MgVehiclesSeeder extends Seeder
         /** HS-PHEV */
         DB::table('products')->insert([
             'name' => 'mg_hs_phev',
-            'formatted_name' => 'MG HS-PHEV',
+            'formatted_name' => 'MG HS PHEV',
             'data' => json_encode([
                 'variants' => [
                     config('app.default_variant_key') => [
+                        'formatted_name' => 'MG HS PHEV',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://mgmotors.com.pk/MG-HS-PHEV',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => config('app.price_not_available.na'),
                     ],
                 ],
@@ -189,31 +141,19 @@ class MgVehiclesSeeder extends Seeder
         /** ZS-EV */
         DB::table('products')->insert([
             'name' => 'mg_zs_ev',
-            'formatted_name' => 'MG ZS-EV',
+            'formatted_name' => 'MG ZS EV',
             'data' => json_encode([
                 'variants' => [
                     config('app.default_variant_key') => [
+                        'formatted_name' => 'MG ZS EV',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://mgmotors.com.pk/NEW-MG-ZS-EV',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => config('app.price_not_available.na'),
                     ],
                 ],
@@ -228,6 +168,5 @@ class MgVehiclesSeeder extends Seeder
                 'watched' =>  true,
             ]),
         ]);
-        
     }
 }
