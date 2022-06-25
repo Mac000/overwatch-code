@@ -17,21 +17,17 @@ class ProtonVehiclesSeeder extends Seeder
         /** Proton Saga */
         DB::table('products')->insert([
             'name' => 'saga',
+            'formatted_name' => 'Saga',
             'data' => json_encode([
                 'variants' => [
                     'mt' => [
+                        'formatted_name' => 'MT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.proton.com.pk/saga',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [],
@@ -39,18 +35,13 @@ class ProtonVehiclesSeeder extends Seeder
                         'price' => '2349000',
                     ],
                     'at' => [
+                        'formatted_name' => 'AT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.proton.com.pk/saga',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [],
@@ -58,18 +49,13 @@ class ProtonVehiclesSeeder extends Seeder
                         'price' => '2499000',
                     ],
                     'ace' => [
+                        'formatted_name' => 'ACE',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.proton.com.pk/saga',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [],
@@ -94,21 +80,17 @@ class ProtonVehiclesSeeder extends Seeder
         /** X70 */
         DB::table('products')->insert([
             'name' => 'x70',
+            'formatted_name' => 'X70',
             'data' => json_encode([
                 'variants' => [
                     'executive_awd' => [
+                        'formatted_name' => 'Executive AWD',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.proton.com.pk/x70',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [],
@@ -116,18 +98,13 @@ class ProtonVehiclesSeeder extends Seeder
                         'price' => '5400000',
                     ],
                     'premium_fwd' => [
+                        'formatted_name' => 'Premium FWD',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.proton.com.pk/x70',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [],
