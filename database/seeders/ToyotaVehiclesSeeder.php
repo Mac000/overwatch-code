@@ -21,54 +21,36 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'altis_grande_cvt-i_1.8_black_interior' => [
+                        'formatted_name' => 'Altis Grande CVT-i 1.8 (Black Interior)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/corolla-x/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/pdf/corolla-x-brochure.pdf',
                                 'name' => 'toyota_corolla_x_1.8_brochure',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '4899000',
                     ],
                     'corolla_at_1.6se' => [
+                        'formatted_name' => 'Corolla AT 1.6SE',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/corolla-x/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/pdf/Corolla16-Final-Brochure.pdf',
                                 'name' => 'toyota_corolla_x_1.6_brochure',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '4509000',
                     ],
@@ -94,29 +76,19 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     '1.5l_ativ_x_cvt' => [
+                        'formatted_name' => '1.5L ATIV X CVT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/yaris/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/uploads/brochure/yaris-v2.pdf',
                                 'name' => 'toyota_yaris_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '3659000',
                     ],
@@ -142,30 +114,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'formatted_name' => 'Prius',
             'data' => json_encode([
                 'variants' => [
-                    '' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'Prius',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/prius',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/brochures/Toyota%20Prius%20Brochure%202017%20(IMC).pdf',
                                 'name' => 'toyota_prius_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '14649000',
                     ],
@@ -189,30 +151,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'name' => 'camry hybrid',
             'data' => json_encode([
                 'variants' => [
-                    'camry_hybrid' => [
+                    'high_grade' => [
+                        'formatted_name' => 'High Grade',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/camry-hybrid/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/pdf/Toyota%20Camry%20Hybrid%20Brochure.pdf',
                                 'name' => 'toyota_camry_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '23319000',
                     ],
@@ -237,82 +189,21 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'corolla_cross_premium_hybrid' => [
+                        'formatted_name' => 'Corolla Cross Premium Hybrid',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => '',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/img/corolla-cross/pdf/Corolla%20Cross%20Brochure.pdf',
                                 'name' => 'toyota_corolla_cross_brochure',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '13419000',
-                    ],
-                    'corolla_cross_smart_hybrid' => [
-                        'pages' => [
-                            config('app.pages_keys.main') => [
-                                'url' => '',
-                                'recent_snapshot_attempt' => null,
-                                'recent_snapshot_attempted_at' => null,
-                            ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                        ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [
-                                'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/img/corolla-cross/pdf/Corolla%20Cross%20Brochure.pdf',
-                                'name' => 'toyota_corolla_cross_brochure',
-                            ],
-                            config('app.files_keys.poster') => [],
-                        ],
-                        'price' => '13099000',
-                    ],
-                    'corolla_cross_hybrid' => [
-                        'pages' => [
-                            config('app.pages_keys.main') => [
-                                'url' => '',
-                                'recent_snapshot_attempt' => null,
-                                'recent_snapshot_attempted_at' => null,
-                            ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                        ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [
-                                'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/img/corolla-cross/pdf/Corolla%20Cross%20Brochure.pdf',
-                                'name' => 'toyota_corolla_cross_brochure',
-                            ],
-                            config('app.files_keys.poster') => [],
-                        ],
-                        'price' => '12249000',
                     ],
                 ],
                 'notes' => 'Corolla Cross is offered in many colors "Celestite Gray Metallic, Attitude Black Mica,
@@ -329,7 +220,6 @@ class ToyotaVehiclesSeeder extends Seeder
             ]),
         ]);
 
-
         /** Rush */
         DB::table('products')->insert([
             'name' => 'rush',
@@ -337,29 +227,19 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'g_at' => [
+                        'formatted_name' => 'G AT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/rush/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/uploads/brochure/Toyota%20Rush%20Brochure.pdf',
                                 'name' => 'toyota_rush_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '8329000',
                     ],
@@ -383,29 +263,19 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'sigma_4' => [
+                        'formatted_name' => 'Sigma 4 (4X4 1GD HI Diesel)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/fortuner/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/fortuner_v2/Fortuner-Brochure-2021-Final-YQ.pdf',
                                 'name' => 'toyota_fortuner_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '12039000',
                     ],
@@ -431,29 +301,19 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'legender' => [
+                        'formatted_name' => 'Legender (4X4 2755CC Diesel)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/fortuner-legender/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/fortuner_v2/Fortuner-Brochure-2021-Final-YQ.pdf',
                                 'name' => 'toyota_fortuner_legender_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '12679000',
                     ],
@@ -479,29 +339,19 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'v_at' => [
+                        'formatted_name' => 'V AT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/revo/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/revo_2021/Revo-Brochure-Low.pdf',
                                 'name' => 'toyota_hilux_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '9229000',
                     ],
@@ -526,30 +376,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'formatted_name' => 'Hilux Revo Rocco',
             'data' => json_encode([
                 'variants' => [
-                    'rocco' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'Hilux Revo Rocco',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/revo-rocco/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/revo_2021/Revo-Brochure-Low.pdf',
                                 'name' => 'toyota_hilux_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '9729000',
                     ],
@@ -574,28 +414,16 @@ class ToyotaVehiclesSeeder extends Seeder
             'formatted_name' => 'Hilux E',
             'data' => json_encode([
                 'variants' => [
-                    'standard' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'Hilux E',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/hilux-e/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => '7359000',
                     ],
                 ],
@@ -617,30 +445,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'formatted_name' => 'Hilux Single Cabin',
             'data' => json_encode([
                 'variants' => [
-                    '4x4' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'Hilux Single Cabin',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/single-cabin/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/uploads/2018/10/FinalHilux4x2-2021.pdf',
                                 'name' => 'toyota_hilux_single_cabin_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '6379000',
                     ],
@@ -664,27 +482,15 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     '4.0_petrol_at' => [
+                        'formatted_name' => '4.0 Petrol/AT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/land-cruiser-prado/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => '41410000',
                     ],
                 ],
@@ -707,27 +513,15 @@ class ToyotaVehiclesSeeder extends Seeder
             'data' => json_encode([
                 'variants' => [
                     'luxury_wagon_2.8l_high' => [
+                        'formatted_name' => 'Luxury Wagon 2.8L (High)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/hiace-deluxe/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
-                        ],
+                        'files' => [],
                         'price' => '12879000',
                     ],
                 ],
@@ -749,30 +543,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'formatted_name' => 'Hiace',
             'data' => json_encode([
                 'variants' => [
-                    'high_roof_dual_ac_gasoline' => [
+                    'high_roof_dual_ac_diesel' => [
+                        'formatted_name' => 'High Roof Dual AC (diesel)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/hiace/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/pdf/hiace.pdf',
                                 'name' => 'toyota_hiace_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '8419000',
                     ],
@@ -794,29 +578,20 @@ class ToyotaVehiclesSeeder extends Seeder
             'name' => 'coaster',
             'data' => json_encode([
                 'variants' => [
-                    'coaster' => [
+                    'high_roof_29_seater' => [
+                        'formatted_name' => 'High Roof (29 Seater)',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.toyota-indus.com/coaster/',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.toyota-indus.com/wp-content/themes/toyotaindus/page-templates/pdf/coaster.pdf',
                                 'name' => 'toyota_coaster_brochure',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '16149000',
                     ],
