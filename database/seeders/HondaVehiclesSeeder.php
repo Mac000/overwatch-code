@@ -17,34 +17,25 @@ class HondaVehiclesSeeder extends Seeder
         /** City 1.2LS */
         DB::table('products')->insert([
             'name' => 'city_1.2ls',
+            'formatted_name' => 'Honda City 1.2LS',
             'data' => json_encode([
                 'variants' => [
-                    'mt' => [
+                    '1-2ls_cvt' => [
+                        'formatted_name' => '1.2LS CVT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/city1.2l.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Brochure-Honda-City.pdf',
                                 'name' => 'hona_city_12ls_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
-                        'price' => '3264000',
+                        'price' => '3389000',
                     ],
                 ],
                 'notes' => '',
@@ -59,88 +50,26 @@ class HondaVehiclesSeeder extends Seeder
             ]),
         ]);
 
-        /**  */
-        DB::table('products')->insert([
-            'name' => '',
-            'data' => json_encode([
-                'variants' => [
-                    '' => [
-                        'pages' => [
-                            config('app.pages_keys.main') => [
-                                'url' => '',
-                                'recent_snapshot_attempt' => null,
-                                'recent_snapshot_attempted_at' => null,
-                            ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
-                        ],
-                        'files' => [
-                            config('app.files_keys.brochure') => [
-                                'url' => '',
-                                'name' => '',
-                            ],
-                            config('app.files_keys.price') => [
-                                'url' => '',
-                                'name' => '',
-                            ],
-                            config('app.files_keys.poster') => [
-                                'url' => '',
-                                'name' => '',
-                            ],
-                        ],
-                        'price' => '',
-                    ],
-                ],
-                'notes' => 'City 1.2LS is offered in many colors "Carnelian Red, Urban Titanium, Tafetta White, Lunar
-                            Silver Metallic, Modern Steel Metallic, Sporty Blue Metallic, Crystal Black Pearl".
-                            As per webpage content, there is no specs or performance difference across colors of a variant.',
-                'notes_added_on' => '2022-05-31',
-                'has_same_urls' => true, // [true, false]
-                'has_same_files' => true, // [true, false]
-                'base_price' =>  '',
-                'currency' =>  'PKR',
-                'category' =>  'vehicle',
-                'manufacturer' =>  'Honda',
-                'watched' =>  true,
-            ]),
-        ]);
-
         /** City 1.5LS */
         DB::table('products')->insert([
             'name' => 'city_1.5ls',
+            'formatted_name' => 'Honda City 1.5LS',
             'data' => json_encode([
                 'variants' => [
-                    'cvt' => [
+                    '1-5ls_cvt' => [
+                        'formatted_name' => '1.5LS CVT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/city1.5l.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Brochure-Honda-City.pdf',
                                 'name' => 'honda_city_15ls_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '3589000',
                     ],
@@ -162,34 +91,25 @@ class HondaVehiclesSeeder extends Seeder
         /** City Aspire */
         DB::table('products')->insert([
             'name' => 'city_aspire_1.5las',
+            'formatted_name' => 'City Aspire 1.5LAS',
             'data' => json_encode([
                 'variants' => [
-                    'mt' => [
+                    '1-5las_cvt' => [
+                        'formatted_name' => '1.5LAS CVT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/cityaspire.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Brochure-Honda-City.pdf',
                                 'name' => 'honda_city_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
-                        'price' => '3729000',
+                        'price' => '3749000',
                     ],
                 ],
                 'notes' => 'City Aspire 1.5LAS is offered in many colors "Carnelian Red, Urban Titanium, Tafetta White, Lunar
@@ -209,32 +129,23 @@ class HondaVehiclesSeeder extends Seeder
         /** BR-V */
         DB::table('products')->insert([
             'name' => 'br_v',
+            'formatted_name' => 'BR-V',
             'data' => json_encode([
                 'variants' => [
                     'i_vtec_s' => [
+                        'formatted_name' => ' I-VTEC S',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/hondabrv.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Brochure-Honda-BRV.pdf',
                                 'name' => 'honda_brv_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '4249000',
                     ],
@@ -257,32 +168,23 @@ class HondaVehiclesSeeder extends Seeder
         /** Civic Standard */
         DB::table('products')->insert([
             'name' => 'civic_standard',
+            'formatted_name' => 'Civic Standard',
             'data' => json_encode([
                 'variants' => [
-                    '1.5l' => [
+                    '1-5l' => [
+                        'formatted_name' => '1.5L',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/civic_standard.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Civic_2022.pdf',
                                 'name' => 'honda_civic_standard_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '5549000',
                     ],
@@ -302,35 +204,26 @@ class HondaVehiclesSeeder extends Seeder
             ]),
         ]);
 
-        /** Civic Ories */
+        /** Civic Oriel */
         DB::table('products')->insert([
             'name' => 'civic_oriel',
+            'formatted_name' => 'Civic Oriel',
             'data' => json_encode([
                 'variants' => [
-                    '1.5ls' => [
+                    '1-5l' => [
+                        'formatted_name' => '1.5L',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/civic_oriel_1.5.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Civic_2022.pdf',
                                 'name' => 'honda_civic_oriel_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '5799000',
                     ],
@@ -350,35 +243,26 @@ class HondaVehiclesSeeder extends Seeder
             ]),
         ]);
 
-        /**  */
+        /** Civic RS */
         DB::table('products')->insert([
             'name' => 'civic_rs',
+            'formatted_name' => 'Civic RS',
             'data' => json_encode([
                 'variants' => [
-                    '1.5l' => [
+                    '1-5l' => [
+                        'formatted_name' => '1.5L',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/civic_rs_turbo.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Civic_2022.pdf',
                                 'name' => 'honda_civic_rs_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '6649000',
                     ],
@@ -401,32 +285,23 @@ class HondaVehiclesSeeder extends Seeder
         /** Honda CR-V */
         DB::table('products')->insert([
             'name' => 'cr-v',
+            'formatted_name' => 'CR-V',
             'data' => json_encode([
                 'variants' => [
-                    'crv' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'CR-V',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/hondacrv.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.honda.com.pk/forms/Brochure-Honda-CR-V.pdf',
                                 'name' => 'honda_crv_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => 'On Quote',
                     ],
@@ -448,32 +323,23 @@ class HondaVehiclesSeeder extends Seeder
         /** Honda Accord */
         DB::table('products')->insert([
             'name' => 'accord',
+            'formatted_name' => 'Accord',
             'data' => json_encode([
                 'variants' => [
-                    'accord' => [
+                    'cvt' => [
+                        'formatted_name' => 'CVT',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.honda.com.pk/hondaaccord.php',
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.exterior') => [],
-                            config('app.pages_keys.interior') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://brochure-honda-accord.pdf/',
                                 'name' => 'honda_accord_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '15499000',
                     ],
