@@ -17,9 +17,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Sonata */
         DB::table('products')->insert([
             'name' => 'sonata',
+            'formatted_name' => 'SONATA',
             'data' => json_encode([
                 'variants' => [
-                    'sonata' => [
+                    '2-5' => [
+                        'formatted_name' => '2.5',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/sonata',
@@ -46,11 +48,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -61,9 +58,8 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/pdf/Hyundai-price-list-Hyundai-SonataNew-(HNMPL).jpeg',
                                 'name' => 'hyundai_sonata_price',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
-                        'price' => '6699900',
+                        'price' => '7849000',
                     ],
                 ],
                 'notes' => 'Hyundai Sonata is offered in many colors "Hampton Gray, Metallic Silver, Polar White,
@@ -83,9 +79,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Elantra */
         DB::table('products')->insert([
             'name' => 'elantra',
+            'formatted_name' => 'ELANTRA',
             'data' => json_encode([
                 'variants' => [
-                    '1.6_gls' => [
+                    '1-6' => [
+                        'formatted_name' => '1.6 MPi Engine, 6-Speed A/T',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/elantra',
@@ -112,11 +110,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -127,11 +120,11 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/images/elantra/Elantra-1.6-Price-List-15-New.jpg',
                                 'name' => 'hyundai_elantra_price',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '4299000',
                     ],
-                    '2.0_gls' => [
+                    '2-0' => [
+                        'formatted_name' => '2.0 MPi Engine, 6-Speed A/T',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/elantra',
@@ -158,11 +151,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -173,7 +161,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/images/elantra/Elantra-1.6-Price-List-15-New.jpg',
                                 'name' => 'hyundai_elantra_price',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '4949000',
                     ],
@@ -193,9 +180,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Tuscon */
         DB::table('products')->insert([
             'name' => 'tuscon',
+            'formatted_name' => 'TUCSON',
             'data' => json_encode([
                 'variants' => [
-                    '2.0l_mpi_fwd_at' => [
+                    '2-0l_mpi_awd_at_6_speed' => [
+                        'formatted_name' => 'TUCSON 2.0L MPi, AWD A/T, 6-Speed',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/tucson',
@@ -222,12 +211,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -238,9 +221,8 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/images/tucson/Hyundai-price-list-Hyundai-TucsonNew-(HNMPL).jpg',
                                 'name' => 'hyundai_tuscon_price',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
-                        'price' => '5799000',
+                        'price' => '6299000',
                     ],
                 ],
                 'notes' => 'N/A',
@@ -258,9 +240,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Santa FE */
         DB::table('products')->insert([
             'name' => 'santa_fe',
+            'formatted_name' => 'SANTA FE',
             'data' => json_encode([
                 'variants' => [
-                    'santa_fe' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'SANTA FE',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/santafe',
@@ -282,21 +266,12 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.hyundai-nishat.com/santafe/download_brochure_santafe',
                                 'name' => 'hyundai_santa_fe_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => 'N/A',
                     ],
@@ -316,9 +291,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Ioniq */
         DB::table('products')->insert([
             'name' => 'ioniq',
+            'formatted_name' => 'IONIQ',
             'data' => json_encode([
                 'variants' => [
-                    'ioniq' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'IONIQ',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/ioniq',
@@ -340,21 +317,12 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.hyundai-nishat.com/ioniq/download_brochure_Ioniq',
                                 'name' => 'hyundai_ioniq_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => 'N/A',
                     ],
@@ -374,9 +342,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Staria */
         DB::table('products')->insert([
             'name' => 'staria',
+            'formatted_name' => 'STARIA',
             'data' => json_encode([
                 'variants' => [
                     'hgs' => [
+                        'formatted_name' => 'HGS',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/staria',
@@ -403,20 +373,12 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.hyundai-nishat.com/staria/download_brochure_staria',
                                 'name' => 'hyundai_staria_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '9299000',
                     ],
@@ -436,9 +398,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Porter H100 */
         DB::table('products')->insert([
             'name' => 'porter_h100',
+            'formatted_name' => 'H100',
             'data' => json_encode([
                 'variants' => [
                     'highdeck' => [
+                        'formatted_name' => 'High-Deck',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/h100',
@@ -465,11 +429,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
@@ -480,7 +439,6 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/pdf/Hyundai-price-list-H-100New-(HNMPL).jpeg',
                                 'name' => 'hyundai_porter_h100_price',
                             ],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => '2949000',
                     ],
@@ -501,9 +459,11 @@ class HyundaiVehiclesSeeder extends Seeder
         /** Grand Starex */
         DB::table('products')->insert([
             'name' => 'grand_starex',
+            'formatted_name' => 'GRAND STAREX',
             'data' => json_encode([
                 'variants' => [
-                    'grand_starex' => [
+                    config('app.default_variant_key') => [
+                        'formatted_name' => 'GRAND STAREX',
                         'pages' => [
                             config('app.pages_keys.main') => [
                                 'url' => 'https://www.hyundai-nishat.com/h1',
@@ -525,21 +485,12 @@ class HyundaiVehiclesSeeder extends Seeder
                                 'recent_snapshot_attempt' => null,
                                 'recent_snapshot_attempted_at' => null,
                             ],
-                            config('app.pages_keys.price') => [],
-                            config('app.pages_keys.specs') => [],
-                            config('app.pages_keys.performance') => [],
-                            config('app.pages_keys.design') => [],
-                            config('app.pages_keys.comfort') => [],
-                            config('app.pages_keys.technology') => [],
-                            config('app.pages_keys.convenience') => [],
                         ],
                         'files' => [
                             config('app.files_keys.brochure') => [
                                 'url' => 'https://www.hyundai-nishat.com/assets/hyundai/pdf/STAREX-Brochure.pdf',
                                 'name' => 'hyundai_grand_starex_brochure',
                             ],
-                            config('app.files_keys.price') => [],
-                            config('app.files_keys.poster') => [],
                         ],
                         'price' => 'N/A',
                     ],
