@@ -41,4 +41,13 @@ class SnapShot extends Model
     public function product() {
         return $this->belongsTo(Product::class);
     }
+
+    /**
+     * Return the Creation time in Human Friendly Format
+     *
+     * @return mixed
+     */
+    public function humaneCreatedAt() {
+        return $this->created_at->diffForHumans();
+    }
 }
