@@ -1,0 +1,16 @@
+/** {*/
+/*    background: #000 !important;*/
+/*    color: #0f0 !important;*/
+/*    outline: solid #f00 1px !important;*/
+/*}*/
+
+body {
+     font-family: 'Nunito', sans-serif;
+}
+#homepage-main-slider {
+    /*height: 80vh;*/
+    /*background: #00d95a;*/
+}
+#product-main-slider {
+    /*height: 80vh;*/
+}
