@@ -9,34 +9,37 @@
             theme: {
                 extend: {
                     fontSize: {
+                        '14': '14px',
+                        '15': '15px',
+                        '16': '16px',
                         '18': '18px',
                         '20': '20px',
                         '22': '22px',
                         '24': '24px',
                         '28': '28px',
                     },
+                    spacing: {
+                        '18': '4.5rem',
+                    }
                 }
             }
         }
     </script>
 
-    <style>
-        /** {*/
-        /*    background: #000 !important;*/
-        /*    color: #0f0 !important;*/
-        /*    outline: solid #f00 1px !important;*/
-        /*}*/
-    </style>
+    <!-- Swiper js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <script src="/js/utilities.js"></script>
+    <script src="/js/custom.js"></script>
+
+    <!-- Flowbite JS -->
+    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 
     <title>OverWatch Pakistan</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-    </style>
 </head>
