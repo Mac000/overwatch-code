@@ -137,36 +137,5 @@ class MgVehiclesSeeder extends Seeder
                 'watched' =>  true,
             ]),
         ]);
-
-        /** ZS-EV */
-        DB::table('products')->insert([
-            'name' => 'mg_zs_ev',
-            'formatted_name' => 'MG ZS EV',
-            'data' => json_encode([
-                'variants' => [
-                    config('app.default_variant_key') => [
-                        'formatted_name' => 'MG ZS EV',
-                        'pages' => [
-                            config('app.pages_keys.main') => [
-                                'url' => 'https://mgmotors.com.pk/NEW-MG-ZS-EV',
-                                'recent_snapshot_attempt' => null,
-                                'recent_snapshot_attempted_at' => null,
-                            ],
-                        ],
-                        'files' => [],
-                        'price' => config('app.price_not_available.na'),
-                    ],
-                ],
-                'notes' => '',
-                'notes_added_on' => '2022-05-31',
-                'has_same_urls' => true, // [true, false]
-                'has_same_files' => true, // [true, false]
-                'base_price' =>  config('app.price_not_available.na'),
-                'currency' =>  'PKR',
-                'category' =>  'vehicle',
-                'manufacturer' =>  'MG',
-                'watched' =>  true,
-            ]),
-        ]);
     }
 }
