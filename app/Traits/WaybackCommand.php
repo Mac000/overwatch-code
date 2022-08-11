@@ -117,23 +117,8 @@ trait WaybackCommand {
 
         $data = json_decode($product->data, true);
         $page = $data['variants'][$variantKey]['pages'][$pageKey];
+
         return collect(["variant_key" => $variantKey, "page_key" => $pageKey, "page" => $page]) ?? null;
-
-        foreach ($pagesKeys as $page) {
-
-            if ($data === null) {
-                $data = Product::where("data->variants->gray->pages->{$page}->url", $url)->pluck("data")->first();
-                dd($data);
-                if ($data !== null) {
-                    $pageKey = $page;
-                    break;
-                }
-            }
-        }
-
-        $data = json_decode($data, true);
-        $page = $data['variants']['pages'][$pageKey];
-        return collect(["key" => $pageKey, "page" => $page]) ?? null;
     }
 
     /**
