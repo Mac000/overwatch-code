@@ -118,7 +118,13 @@ class SaveSnapshot extends Command
     protected function saveSnapshot($url, $timestamp, $product) {
         // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
         try {
-            $response = Http::retry(2, 5)->asForm()->post('https://web.archive.org/save', [
+            $now = Carbon::now()->toDateTimeString();
+
+            // Adding a delay of 60 seconds between each request has proven to prevent 429 errors.
+            // Perhaps it would prevent 429 errors with 30 or 45 seconds delay as well.
+            $response = Http::withOptions([
+                'delay' => 50000, // 50 seconds
+            ])->retry(1, 30)->asForm()->post('https://web.archive.org/save', [
                 // DO not Send any Param if you don't need it as "on"
                 'url' => $url,
 //                'capture_outlinks' => 'on',
@@ -136,7 +142,7 @@ class SaveSnapshot extends Command
         }
         catch (RequestException $exception) {
             $this->addToFailedSnapshotUrls($url, $exception, $product->id);
-            $logMessages = collect(["Error Occurred during verification of {$url}", "HTTP Status: {$exception->response->status()}"]);
+            $logMessages = collect(["Error Occurred while taking snapshot of {$url}", "HTTP Status: {$exception->response->status()}"]);
 
             $this->onFailure($exception, $url, "saveSnapshot", $logMessages);
             return $exception;
