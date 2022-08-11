@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Models\Product;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
@@ -26,12 +27,91 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $product = Product::find(1);
-        $urls = collect(json_decode($product->data)->pages)->values();
+        // New approach starts below
+//        $products = Product::all();
+//        $products->shift();
+//
+//        $keys = config('app.pages_keys');
+//        $urls = collect();
+//        $timestamps = collect();
+//
+//        foreach ($products as $product) {
+//            $data = json_decode($product->data, true);
+//            foreach ($keys as $key) {
+//                // Push each product page url & recent_snapshot_attempted_at value to urls & timestamps collection
+//                $urls->push($data['pages'][$key]['url']);
+//                $timestamps->push($data['pages'][$key]['recent_snapshot_attempted_at']);
+//            }
+//        }
 
-        $schedule->command("snapshot:verifyUrl {$urls}")->everyMinute();
-        $schedule->command("snapshot:save {$urls}")->everyMinute();
-        // $schedule->command('inspire')->hourly();
+        // New approach after adding variants
+        $products = Product::all();
+//        $products = Product::where('data->manufacturer', 'Suzuki')->get();
+//        $products = Product::where('id', 1)->get();
+        $keys = config('app.pages_keys');
+        $urls = collect();
+        $timestamps = collect();
+
+        foreach ($products as $product) {
+            /*
+             * 1. Get Products
+             * Get Product Variants.
+             * for each variant, get it's pages urls (if they are different on variant basis).
+             */
+            $data = $product->data;
+            $data = json_decode($data, true);
+
+            // Variants can be checked for existence by checking "variants" key in data
+            $variantsExist = \Illuminate\Support\Arr::exists($data, 'variants');
+
+            // Get all the variants of product
+            $variants = $data['variants'];
+
+            // If All variants of product have same urls, then add urls of first variant only
+            if ($data['has_same_urls'] === true) {
+                $first = Arr::first($variants, function ($value, $key) {return true;});
+
+                foreach ($keys as $key) {
+                    $pages = $first['pages'];
+                    // verify that a given page exists AND is NOT empty. You must do that as a mistake in seeding has the
+                    // potential to blow up code if key of page is not checked for existence.
+                    if (\Illuminate\Support\Arr::exists($pages, $key) and !empty($pages[$key])) {
+                        $urls->push($pages[$key]['url']);
+                        $timestamps->push($pages[$key]['recent_snapshot_attempted_at']);
+                    }
+                }
+            }
+            // If all variants of Product do not have same urls, add url of each variant to the $urls collection
+            elseif ($data['has_same_urls'] === false) {
+                foreach ($variants as $variant) {
+                    foreach ($keys as $key) {
+                        $pages = $variant['pages'];
+
+                        // verify that a given page exists AND is NOT empty. You must do that as a mistake in seeding has the
+                        // potential to blow up code if key of page is not checked for existence.
+                        if (\Illuminate\Support\Arr::exists($pages, $key) and !empty($pages[$key])) {
+                            $urls->push($pages[$key]['url']);
+                            $timestamps->push($pages[$key]['recent_snapshot_attempted_at']);
+                        }
+                    }
+                }
+            }
+        }
+
+        Log::channel('dev')->info("URLS of products in Kernel");
+        Log::channel('dev')->info($urls);
+
+//        $schedule->command("snapshot:save {$urls}")->everyTwoMinutes();
+//        $schedule->command("snapshot:save {$urls}")->everyThreeMinutes();
+//        $schedule->command("snapshot:save {$urls}")->everyMinute();
+        $schedule->command("snapshot:save {$urls}")->everyFiveMinutes();
+//        $schedule->command("snapshot:add {$timestamps} {$urls}")->everyThreeMinutes();
+        $schedule->command("snapshot:add {$timestamps} {$urls}")->everyTwoMinutes();
+
+//        $schedule->command('snapshot:reattempt')->everyFiveMinutes();
+//        $schedule->command('snapshot:reattempt')->everyTwoMinutes();
+
+//        $schedule->command("snapshot:verifyUrl {$urls}")->everyTwoMinutes();
     }
 
     /**
