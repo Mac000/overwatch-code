@@ -59,6 +59,11 @@ return [
         ]
     ],
 
+    'manufacturers' => [
+        'Honda', 'Toyota', 'Suzuki', 'Changan',
+        'Yamaha'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
