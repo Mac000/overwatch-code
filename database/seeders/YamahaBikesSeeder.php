@@ -17,6 +17,7 @@ class YamahaBikesSeeder extends Seeder
         /** YBR 125 **/
         DB::table('products')->insert([
             'name' => 'ybr125',
+            'formatted_name' => 'YBR 125',
             'data' => json_encode([
                 'pages' => [
                     config('app.pages_keys.main') => [
@@ -67,6 +68,7 @@ class YamahaBikesSeeder extends Seeder
         /** YBR 125-G **/
         DB::table('products')->insert([
             'name' => 'ybr125g',
+            'formatted_name' => 'YBR 125G',
             'data' => json_encode([
                 'pages' => [
                     config('app.pages_keys.main') => [
@@ -116,7 +118,8 @@ class YamahaBikesSeeder extends Seeder
 
         /** YB 125-Z **/
         DB::table('products')->insert([
-            'name' => 'ybr125',
+            'name' => 'ybz125',
+            'formatted_name' => 'YB 125-Z',
             'data' => json_encode([
                 'pages' => [
                     config('app.pages_keys.main') => [
@@ -163,7 +166,8 @@ class YamahaBikesSeeder extends Seeder
 
         /** YB 125-Z DX **/
         DB::table('products')->insert([
-            'name' => 'ybr125',
+            'name' => 'ybz125dx',
+            'formatted_name' => 'YBZ 125 DX',
             'data' => json_encode([
                 'pages' => [
                     config('app.pages_keys.main') => [
