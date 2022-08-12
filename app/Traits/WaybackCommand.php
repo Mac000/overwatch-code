@@ -221,17 +221,6 @@ trait WaybackCommand {
         return $file;
     }
 
-    /**
-     * Send Report over Email
-     */
-    protected function sendReportViaEmail($reportFile, $mailData, $receiverEmail) {
-        $mailData = config('app.reports.verify_url_status');
-
-        // json_decode $reportJson to convert it into php array and pass on to report notification class
-        Notification::route('mail', config('mail.site_emails.administration'))
-            ->notify(new SnapshotReport($mailData, json_decode($reportFile, true)));
-    }
-
     // TODO: Test this function and see if it can work as a true one stop function to get any data property.
     protected function getProductAnyDataPropertyByValue($value, $dataProperty) {
         $data = Product::where("data->{$dataProperty}", $value)->pluck("data")->first();
