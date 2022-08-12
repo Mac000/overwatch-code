@@ -2,11 +2,8 @@
 namespace App\Traits;
 
 use App\Models\Product;
-use App\Notifications\SnapshotReport;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 trait WaybackCommand {
@@ -153,7 +150,7 @@ trait WaybackCommand {
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function generateVerifyUrlJsonReport($url, $response, $product,
+    protected function generateVerifyUrlJsonReport($url, $status, $product,
                                                    $first = false, $last = false, $index = 0,
                                                    $disk = "waybackReports", $file = "verifyUrlStatus.json") {
 
@@ -168,7 +165,7 @@ trait WaybackCommand {
                 \"name\": \"{$product->name}\",
                 \"manufacturer\": \"{$manufacturer}\",
                 \"url\": \"{$url}\",
-                \"url_status\": \"{$response->status()}\"
+                \"url_status\": \"{$status}\"
             }
         }
     }"; // } = product, } = products, } = closing
@@ -179,7 +176,7 @@ trait WaybackCommand {
                 \"name\": \"{$product->name}\",
                 \"manufacturer\": \"{$manufacturer}\",
                 \"url\": \"{$url}\",
-                \"url_status\": \"{$response->status()}\"
+                \"url_status\": \"{$status}\"
             },";
             Storage::disk($disk)->append($file, $reportData);
         }
