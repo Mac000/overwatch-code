@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Notifications\SnapshotReport;
+use App\Notifications\VerifyUrlReport;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -71,22 +71,31 @@ class verifyUrlStatus extends Command
             $response = $this->sendVerifyRequest($url);
             $product = $this->getProductByAnyPageUrl($url);
 
-            // Write report information to a json file
-            if ($urlsLoopIndex  === 0) { // for first ever url
-                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product, true, false, $urlsLoopIndex);
-            }
-            elseif ($urlsArrayLength - $urlsLoopIndex == 1) { // for last url
-                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product,false, true, $urlsLoopIndex);
+            // An exception occurred, Grab Request status from exception object
+            if ($response instanceof RequestException) {
+                $status = $response->response->status();
+                Log::channel('dev')->info("An exception occurred. Continuing to next loop iteration");
             }
             else {
-                $reportFile = $this->generateVerifyUrlJsonReport($url, $response, $product, false, false, $urlsLoopIndex);
+                $status = $response->status();
+            }
+
+            // Write report information to a json file
+            if ($urlsLoopIndex  === 0) { // for first ever url
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $status, $product, true, false, $urlsLoopIndex);
+            }
+            elseif ($urlsArrayLength - $urlsLoopIndex == 1) { // for last url
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $status, $product,false, true, $urlsLoopIndex);
+            }
+            else {
+                $reportFile = $this->generateVerifyUrlJsonReport($url, $status, $product, false, false, $urlsLoopIndex);
             }
             $urlsLoopIndex++;
         }
 
         // Send Report via Email
         $mailData = config('app.reports.verify_url_status');
-        $this->sendReportViaEmail($reportFile, $mailData, config('mail.site_emails.administration'));
+        $this->reportViaMail($reportFile, $mailData, config('mail.site_emails.administration'));
 
         return Command::SUCCESS;
     }
@@ -101,7 +110,7 @@ class verifyUrlStatus extends Command
 
         // Wrapping the Http call in try catch block is needed to catch the thrown exception so remaining code can execute
         try {
-            $response = Http::retry(3, 30)->get($url)->throw();
+            $response = Http::retry(1, 30)->get($url)->throw();
             $logMessages = collect(["Url verified. Returned Status: {$response->status()}"]);
 
             return $this->onSuccess($response, "verifyUrlStatus", $logMessages);
@@ -111,6 +120,23 @@ class verifyUrlStatus extends Command
                 "HTTP Status: {$exception->response->status()}"
             ]);
             $this->onFailure($exception, $url, "verifyUrlStatus", $logMessages);
+            return $exception;
         }
+    }
+
+    /**
+     * Send Report via Email
+     * @param $reportFile
+     * @param $mailData
+     * @param $receiverEmail
+     * @return void
+     */
+    protected function reportViaMail($reportFile, $mailData = null, $receiverEmail = null) {
+        $receiverEmail = $receiverEmail ?? config('mail.site_emails.administration');
+        $mailData = $mailData ?? config('app.reports.verify_url_status');
+
+        // json_decode $reportJson to convert it into php array and pass on to report notification class
+        Notification::route('mail', $receiverEmail)
+            ->notify(new VerifyUrlReport($mailData, json_decode($reportFile, true)));
     }
 }
