@@ -45,7 +45,7 @@ return [
         'blog_posts' => [
             'driver' => 'local',
             'root' => public_path().'/images/blogs',
-            'url' => env('APP_URL').'images/blogs',
+            'url' => env('APP_URL').'/images/blogs',
             'visibility' => 'public',
         ],
 
