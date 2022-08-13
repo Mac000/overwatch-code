@@ -30,4 +30,6 @@
 {{--        <p>No products exist yet!</p>--}}
 {{--    @endforelse--}}
 {{--</div>--}}
+
+@include('components/common/footer')
 </body>
