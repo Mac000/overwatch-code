@@ -18,6 +18,5 @@
     </div>
 </section>
 
-@include('components/common/footer')
 </body>
 
