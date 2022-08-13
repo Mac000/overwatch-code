@@ -40,9 +40,9 @@ return [
         'failed' => 'failed',
         'null' => null,
     ],
-//    'snapshot_check_delay' => 45, // 45 minutes
-    'snapshot_check_delay' => 1440, // 45 minutes
+    'snapshot_check_delay' => 1440, // 1 DAY
     'snapshot_already_taken_string' => "You can make new capture of this URL after 45 minutes",
+    'snapshot_save_delay' => 50000, // 50 seconds, value provided in ms because underlying function expects it in ms
 
     'closet_snapshot_endpoint' => "http://archive.org/wayback/available?",
 
@@ -53,6 +53,11 @@ return [
             'salutation' => "I guess Goodbye until next run..",
         ],
         'save_snapshot' => [
+            'subject' => "snapshot:save Status Report",
+            'greetings' => "Hi, .....",
+            'salutation' => "I guess Goodbye until next run..",
+        ],
+        'add_saved_snapshot' => [
             'subject' => "snapshot:save Status Report",
             'greetings' => "Hi, .....",
             'salutation' => "I guess Goodbye until next run..",
