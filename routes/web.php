@@ -2,14 +2,17 @@
 
 use App\Models\FailedSnapshotUrl;
 use App\Models\Product;
+use App\Notifications\VerifyUrlReport;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\WaybackCommand;
+use \App\Http\Controllers\BlogPostController;
+use \App\Http\Controllers\RoutingController;
+use \App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +25,22 @@ use App\Traits\WaybackCommand;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\RoutingController::class, 'home'])->name('home_page');
-Route::get('/products/{name}', [\App\Http\Controllers\ProductsController::class, 'show'])->name('product_page');
-Route::get('/products/category/{category}', [\App\Http\Controllers\ProductsController::class, 'index'])->name('products_page');
-Route::get('/products/manufacturer/{manufacturer}', [\App\Http\Controllers\ProductsController::class, 'productsByManufacturer'])
+Route::get('/', [RoutingController::class, 'home'])->name('home_page');
+Route::get('/products/{name}', [ProductsController::class, 'show'])->name('product_page');
+Route::get('/products/category/{category}', [ProductsController::class, 'index'])->name('products_page');
+Route::get('/products/manufacturer/{manufacturer}', [ProductsController::class, 'productsByManufacturer'])
     ->name('manufacturer_page');
 
+Route::get('blog', [BlogPostController::class, 'index'])->name('blog');
+Route::get('blog/posts/{slug}', [BlogPostController ::class, 'show'])->name('show_post');
+
 Route::view('/timeline', 'components/generic/vertical-timeline');
+
+/* URDU Routes */
+Route::prefix('ur/')->group(function () {
+    Route::get('blog', [BlogPostController::class, 'index'])->name('ur_blog');
+    Route::get('blog/posts/{slug}', [BlogPostController::class, 'show'])->name('ur_show_post');
+});
 
 /*
  * Dirty prototypal code below, it should be wiped off soon.
@@ -136,6 +148,15 @@ Route::get('/mail', function () {
     $file = Storage::disk('waybackReports')->get('/verifyUrlStatus.json');
     $report = json_decode($file, true);
     $mailData = config('app.reports.verify_url_status');
+
+    //send email
+//    $receiverEmail = $receiverEmail ?? config('mail.site_emails.administration');
+//    $mailData = $mailData ?? config('app.reports.verify_url_status');
+//    $reportFile = Storage::disk('waybackReports')->get('/verifyUrlStatus.json');
+//
+//    // json_decode $reportJson to convert it into php array and pass on to report notification class
+//    Notification::route('mail', $receiverEmail)
+//        ->notify(new VerifyUrlReport($mailData, json_decode($reportFile, true)));
 
     return (new \App\Notifications\SnapshotReport($mailData, $report))->toMail(config('mail.site_emails.administration'));
 });

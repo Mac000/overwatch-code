@@ -14,3 +14,7 @@ body {
 #product-main-slider {
     /*height: 80vh;*/
 }
+
+.text-rtl {
+    direction: rtl;
+}
