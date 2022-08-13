@@ -7,6 +7,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Laravel\Nova\Trix\PruneStaleAttachments;
 
 class Kernel extends ConsoleKernel
 {
@@ -70,8 +71,11 @@ class Kernel extends ConsoleKernel
             // If All variants of product have same urls, then add urls of first variant only
             if ($data['has_same_urls'] === true) {
                 $first = Arr::first($variants, function ($value, $key) {return true;});
+                Log::info("First Variant:");
+                Log::info($first);
 
                 foreach ($keys as $key) {
+                    Log::debug($first['pages']);
                     $pages = $first['pages'];
                     // verify that a given page exists AND is NOT empty. You must do that as a mistake in seeding has the
                     // potential to blow up code if key of page is not checked for existence.
@@ -101,17 +105,14 @@ class Kernel extends ConsoleKernel
         Log::channel('dev')->info("URLS of products in Kernel");
         Log::channel('dev')->info($urls);
 
-//        $schedule->command("snapshot:save {$urls}")->everyTwoMinutes();
-//        $schedule->command("snapshot:save {$urls}")->everyThreeMinutes();
-//        $schedule->command("snapshot:save {$urls}")->everyMinute();
-        $schedule->command("snapshot:save {$urls}")->everyFiveMinutes();
-//        $schedule->command("snapshot:add {$timestamps} {$urls}")->everyThreeMinutes();
-        $schedule->command("snapshot:add {$timestamps} {$urls}")->everyTwoMinutes();
+        $schedule->command("snapshot:save {$urls}")->everyTwoMinutes();
+        $schedule->command("snapshot:add {$timestamps} {$urls}")->everyThreeMinutes();
+        $schedule->command('snapshot:reattempt')->everyFiveMinutes();
+        $schedule->command("snapshot:verifyUrl {$urls}")->everyFiveMinutes();
+        $schedule->command("snapshot:add {$timestamps} {$urls}")->hourlyAt(27);
 
-//        $schedule->command('snapshot:reattempt')->everyFiveMinutes();
-//        $schedule->command('snapshot:reattempt')->everyTwoMinutes();
-
-//        $schedule->command("snapshot:verifyUrl {$urls}")->everyTwoMinutes();
+        // Clean up Trix Attachments daily
+        $schedule->call(new PruneStaleAttachments)->daily();
     }
 
     /**
