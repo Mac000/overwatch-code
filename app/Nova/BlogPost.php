@@ -84,7 +84,7 @@ class BlogPost extends Resource
                 }),
 
             new Panel('English Blog', $this->englishFields()),
-            new Panel('Arabic Blog', $this->urduFields()),
+            new Panel('Urdu Blog', $this->urduFields()),
         ];
     }
 
