@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\FailedSnapshotUrl;
+use App\Notifications\SaveSnapshotReport;
 use App\Traits\WaybackCommand;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -10,7 +11,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Traits\AcquireCommandArgument;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class SaveSnapshot extends Command
@@ -123,7 +124,7 @@ class SaveSnapshot extends Command
             // Adding a delay of 60 seconds between each request has proven to prevent 429 errors.
             // Perhaps it would prevent 429 errors with 30 or 45 seconds delay as well.
             $response = Http::withOptions([
-                'delay' => 50000, // 50 seconds
+                'delay' => config('snapshot_save_delay'), // 50 seconds
             ])->retry(1, 30)->asForm()->post('https://web.archive.org/save', [
                 // DO not Send any Param if you don't need it as "on"
                 'url' => $url,
@@ -239,5 +240,21 @@ class SaveSnapshot extends Command
            ]),
         ]);
         return $failedSnapshotUrl;
+    }
+
+    /**
+     * Send Report via Email
+     * @param $reportFile
+     * @param $mailData
+     * @param $receiverEmail
+     * @return void
+     */
+    protected function reportViaMail($reportFile, $mailData = null, $receiverEmail = null) {
+        $receiverEmail = $receiverEmail ?? config('mail.site_emails.administration');
+        $mailData = $mailData ?? config('app.reports.save_snapshot');
+
+        // json_decode $reportJson to convert it into php array and pass on to report notification class
+        Notification::route('mail', $receiverEmail)
+            ->notify(new SaveSnapshotReport($mailData, json_decode($reportFile, true)));
     }
 }
