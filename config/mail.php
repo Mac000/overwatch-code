@@ -15,6 +15,11 @@ return [
 
     'default' => env('MAIL_MAILER', 'smtp'),
 
+    'site_emails' => [
+        'administration' => 'admin@overwatchpk.com',
+        'info' => 'info@overwatchpk.com'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
@@ -43,6 +48,15 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
+        ],
+
+        'info' => [
+            'transport' => 'smtp',
+            'host' => 'smtp.mailtrap.io',
+            'port' => 25,
+            'username' => '996fa189c72695',
+            'password' => '34bd8b7e1dc0e6',
+            'encryption' => 'tls',
         ],
 
         'ses' => [

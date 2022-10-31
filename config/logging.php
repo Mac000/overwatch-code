@@ -48,6 +48,35 @@ return [
     */
 
     'channels' => [
+        'production' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/production.log'),
+        ],
+        'dev' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/dev.log'),
+        ],
+        'verifyUrlStatus' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/verifyUrlStatus.log'),
+        ],
+        'saveSnapshot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/saveSnapshot.log'),
+        ],
+        'getClosetSnapshot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/getClosetSnapshot.log'),
+        ],
+        'addSavedSnapshot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/addSavedSnapshot.log'),
+        ],
+        'reattemptFailedSnapshots' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/reattemptFailedSnapshots.log'),
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

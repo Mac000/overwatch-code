@@ -42,6 +42,30 @@ return [
             'visibility' => 'public',
         ],
 
+        'blog_posts' => [
+            'driver' => 'local',
+            'root' => public_path().'/images/blogs',
+            'url' => env('APP_URL').'/images/blogs',
+            'visibility' => 'public',
+        ],
+
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path().'/uploads',
+
+            // url value is used while generating link to file via Storage facade
+            // example: Storage::disk('someDisk')->url($nameOfFile)
+            'url' => env('APP_URL').'/uploads',
+            'visibility' => 'public',
+        ],
+
+        'waybackReports' => [
+            'driver' => 'local',
+            'root' => storage_path().'/waybackReports',
+            'url' => env('APP_URL').'/waybackReports',
+            'visibility' => 'private',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
